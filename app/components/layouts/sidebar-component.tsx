@@ -33,7 +33,7 @@ export const SidebarComponent = ({
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navItems = [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { title: "workspace", href: "/workspace", icon: User },
+    { title: "workspaces", href: "/workspaces", icon: User },
     { title: "My Tasks", href: "/tasks", icon: ListCheck },
     { title: "Members", href: "/members", icon: Users },
     { title: "Achieved", href: "/achived", icon: CheckCircle2 },

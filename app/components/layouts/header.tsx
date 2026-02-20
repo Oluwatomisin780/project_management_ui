@@ -12,7 +12,7 @@ import { useAuth } from "@/providers/auth-context";
 import { Role, type Workspace } from "@/types";
 import { Bell, PlusCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { WorkSpaceAvatar } from "@/components/workspace/workspace-avatar";
 
 interface HeaderProps {
@@ -21,35 +21,14 @@ interface HeaderProps {
   onCreateWorkSpace: () => void;
 }
 
-const workspaces: Workspace[] = [
-  {
-    _id: "1",
-    name: "Design Team",
-    color: "#FF5733",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    owner: "user1",
-    members: [
-      {
-        user: {
-          name: "Alice",
-          email: "tomso@",
-          isEmailVerified: true,
-          _id: "user1",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        role: Role.ADMIN,
-        joinedAt: new Date(),
-      },
-    ],
-  },
-];
 export const Header = ({
   onCreateWorkSpace,
   onWorkSpaceSelected,
   selectedWorkSpace,
 }: HeaderProps) => {
+  const workspaces = useLoaderData() as Workspace[];
+  console.log(workspaces);
+
   const { user, logout } = useAuth();
   return (
     <div className="bg-background sticky top-0 z-40 border-b">
@@ -81,7 +60,7 @@ export const Header = ({
             <DropdownMenuGroup>
               {workspaces.map((workspace) => (
                 <DropdownMenuItem
-                  key={workspace._id}
+                  key={workspace.id}
                   onClick={() => onWorkSpaceSelected(workspace)}
                 >
                   {workspace.color && (

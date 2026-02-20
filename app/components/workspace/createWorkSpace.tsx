@@ -20,6 +20,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useCreateWorkspace } from "@/hooks/use-workspace";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 interface CreateWorkSpaceProps {
   isCreatingWorkspace: boolean;
@@ -36,12 +39,13 @@ export const colorsOptions = [
   "#2ECC71", // Light Green
   "#34495E", // Navy
 ];
-type WorkspaceForm = z.infer<typeof WorkspaceSchema>;
+export type WorkspaceForm = z.infer<typeof WorkspaceSchema>;
 export const CreateWorkspace = ({
   isCreatingWorkspace,
   setIsCreateWorkspace,
 }: CreateWorkSpaceProps) => {
-  const isPending = false;
+  const navigate = useNavigate();
+  const { isPending, mutate, error } = useCreateWorkspace();
   const form = useForm<WorkspaceForm>({
     resolver: zodResolver(WorkspaceSchema),
     defaultValues: {
@@ -50,8 +54,19 @@ export const CreateWorkspace = ({
       description: "",
     },
   });
-  const handleSubmit = (data: WorkspaceForm) => {
-    console.log(data);
+  const handleSubmit = (values: WorkspaceForm) => {
+    mutate(values, {
+      onSuccess: (data: any) => {
+        form.reset();
+        setIsCreateWorkspace(false);
+        toast.success("workspace successfully created");
+        navigate(`/workspaces/${data.id}`);
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.error("something went wrong");
+      },
+    });
   };
   return (
     <Dialog
