@@ -50,14 +50,14 @@ export const SidebarComponent = ({
         <Link to="/dashboard">
           {!isCollapsed && (
             <div className="flex items-center gap-2">
-              <Wrench className="size-6   text-blue-600" />
+              <Wrench className="size-6   text-black-600" />
 
               <span className="font-semibold text-lg hidden md:block">
                 Task Hub
               </span>
             </div>
           )}
-          {isCollapsed && <Wrench className="size-6 text-blue-600" />}
+          {isCollapsed && <Wrench className="size-6 text-black-600" />}
         </Link>
         <Button
           variant="ghost"

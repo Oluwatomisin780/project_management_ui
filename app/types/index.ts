@@ -15,6 +15,12 @@ export enum ProjectStatus {
   CANCELLED = "CANCELLED",
 }
 
+export enum TaskStatus {
+  TODO = "TODO",
+  IN_PROGRESS = "IN_PROGRESS",
+  REVIEW = "RIVIEW",
+  DONE = "DONE",
+}
 export interface BaseType {
   id: string;
   createdAt: Date;
@@ -58,6 +64,7 @@ export interface Task extends BaseType {
   assignee: User[];
   watcher: User[];
   dueDate: Date;
+  status: TaskStatus;
   taskPriority: Taskpriority;
   attachment: Attachment; // coming back to  this
   subTask: SubTask[];
