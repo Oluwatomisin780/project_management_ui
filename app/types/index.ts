@@ -66,6 +66,7 @@ export interface Task extends BaseType {
   dueDate: Date;
   status: TaskStatus;
   taskPriority: Taskpriority;
+  isArchived: boolean;
   attachment: Attachment; // coming back to  this
   subTask: SubTask[];
 }

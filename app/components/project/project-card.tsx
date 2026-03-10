@@ -21,7 +21,7 @@ interface ProjectCardProps {
 
 export const ProjectCard = ({ project, workspaceId }: ProjectCardProps) => {
   return (
-    <Link to={`/project/${project.id}`}>
+    <Link to={`/workspace/${workspaceId}/project/${project.id}`}>
       <Card className="transition-all duration-300 hover:shadow-md  hover: translate-y-1">
         <CardHeader>
           <div className="flex  items-center justify-between">

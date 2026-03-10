@@ -12,7 +12,7 @@ import { getProjectProgress } from "@/lib";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { AlertCircle, Calendar, CheckCircle, Clock } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { TaskStatus, type Project, type Task } from "@/types";
 
@@ -26,6 +26,9 @@ const ProjectDetails = () => {
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [taskFilter, setTaskFilter] = useState<TaskStatus | "All">("All");
 
+  useEffect(() => {
+    console.log("taskfilter", taskFilter);
+  }, [taskFilter]);
   const { data, isLoading } = useGetProjectQuery(projectId!) as {
     data: {
       project: Project;
@@ -44,11 +47,9 @@ const ProjectDetails = () => {
   const { project } = data;
   const { task: tasks } = project;
   const projectProgress = getProjectProgress(tasks);
-
+  console.log("tasks", tasks);
   const handleTaskClick = (taskId: string) => {
-    navigate(
-      `/workspaces/${workspaceId}/projects/${projectId}/tasks/${taskId}`,
-    );
+    navigate(`/workspace/${workspaceId}/projects/${projectId}/tasks/${taskId}`);
   };
 
   return (
@@ -87,20 +88,22 @@ const ProjectDetails = () => {
                 All Tasks
               </TabsTrigger>
               <TabsTrigger
-                value="TODO"
+                value={TaskStatus.TODO}
                 onClick={() => setTaskFilter(TaskStatus.TODO)}
               >
                 To Do
               </TabsTrigger>
               <TabsTrigger
-                value="IN_PROGRESS"
+                value={TaskStatus.IN_PROGRESS}
                 onClick={() => setTaskFilter(TaskStatus.IN_PROGRESS)}
               >
                 In Progress
               </TabsTrigger>
               <TabsTrigger
-                value="DONE"
-                onClick={() => setTaskFilter(TaskStatus.DONE)}
+                value={TaskStatus.DONE}
+                onClick={() =>
+                  console.log("Done", setTaskFilter(TaskStatus.DONE))
+                }
               >
                 Done
               </TabsTrigger>
@@ -157,7 +160,7 @@ const ProjectDetails = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="todo" className="m-0">
+          <TabsContent value={TaskStatus.TODO} className="m-0">
             <div className="grid md:grid-cols-1 gap-4">
               <TaskColumn
                 title="To Do"
@@ -168,7 +171,7 @@ const ProjectDetails = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="in-progress" className="m-0">
+          <TabsContent value={TaskStatus.IN_PROGRESS} className="m-0">
             <div className="grid md:grid-cols-1 gap-4">
               <TaskColumn
                 title="In Progress"
@@ -179,7 +182,7 @@ const ProjectDetails = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="done" className="m-0">
+          <TabsContent value={TaskStatus.DONE} className="m-0">
             <div className="grid md:grid-cols-1 gap-4">
               <TaskColumn
                 title="Done"
